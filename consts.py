@@ -1,0 +1,9 @@
+# Small
+ROWS = 8
+COLUMNS = 10
+NUM_MINES = 10
+
+# Medium
+# ROWS = 14
+# COLUMNS = 18
+# NUM_MINES = 40
