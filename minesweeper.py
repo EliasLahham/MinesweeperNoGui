@@ -1,6 +1,6 @@
+from player_input import get_starting_tile
 from board_builder import build_empty_board_with_mines, build_solved_board
 from game_display import pretty_print_board
-from player_input import get_starting_tile
 from player import play_game
 
 

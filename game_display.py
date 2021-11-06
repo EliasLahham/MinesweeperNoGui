@@ -1,5 +1,5 @@
+from consts import *
 from pandas import *
-from consts import NUM_MINES, SMALL_HEADERS, MEDIUM_HEADERS, LARGE_HEADERS, SEPERATOR
 
 
 def pretty_print_board(board):

@@ -1,4 +1,4 @@
-from consts import ROWS, COLUMNS
+from consts import *
 
 
 class Chosen_Tile:

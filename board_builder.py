@@ -1,5 +1,5 @@
 from board_helper import Revealed_Tile, get_adjacent_indices, get_adjacent_bomb_count, not_starting_tile, not_surrounding_starting_tile, get_solved_board_value, should_reveal_more, get_revealed_tiles, reveal_tiles
-from consts import ROWS, COLUMNS, NUM_MINES
+from consts import *
 import random
 
 
