@@ -27,3 +27,4 @@ def play_game(empty_board_with_mines, solved_board, starting_tile):
             print_seperator()
             print('YOU WON!')
             print_seperator()
+            break
