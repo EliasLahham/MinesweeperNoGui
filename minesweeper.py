@@ -5,12 +5,17 @@ from player import play_game
 
 
 def main():
+    empty_board, solved_board, starting_tile, mine_locations = setup_game()
+    play_game(empty_board, solved_board, starting_tile, mine_locations)
+
+
+def setup_game():
     empty_board = build_empty_board('▯')
     pretty_print_board(empty_board)
     starting_tile = get_starting_tile()
     empty_board_with_mines, mine_locations = build_empty_board_with_mines(starting_tile)
     solved_board = build_solved_board(empty_board_with_mines)
-    play_game(empty_board, solved_board, starting_tile, mine_locations)
+    return empty_board, solved_board, starting_tile, mine_locations
 
 
 if __name__ == '__main__':
