@@ -1,12 +1,11 @@
-from board_helper import get_bomb_locations, was_mine_hit, has_player_won
-from board_builder import build_empty_board, build_play_board_with_revealed_tile
-from game_display import pretty_print_board, print_game_over, print_seperator
+from board_builder import build_play_board_with_revealed_tile, build_empty_board
+from game_display import print_seperator, pretty_print_board, print_game_over
 from player_input import get_chosen_tile_and_decision
+from board_helper import has_player_won
 
 
-def play_game(empty_board_with_mines, solved_board, starting_tile):
-    bomb_locations = get_bomb_locations(empty_board_with_mines)
-    play_board = build_play_board_with_revealed_tile(build_empty_board('▯'), solved_board, starting_tile)
+def play_game(empty_board, solved_board, starting_tile, mine_locations):
+    play_board = build_play_board_with_revealed_tile(empty_board, solved_board, starting_tile)
     while True:
         print_seperator()
         pretty_print_board(play_board)
@@ -16,15 +15,18 @@ def play_game(empty_board_with_mines, solved_board, starting_tile):
         elif chosen_tile_and_decision.unflag:
             play_board[chosen_tile_and_decision.row][chosen_tile_and_decision.col] = '▯'
         elif (chosen_tile_and_decision.flag is False and chosen_tile_and_decision.unflag is False and
-                was_mine_hit((chosen_tile_and_decision.row, chosen_tile_and_decision.col), bomb_locations)):
+                (chosen_tile_and_decision.row, chosen_tile_and_decision.col) in mine_locations):
             play_board[chosen_tile_and_decision.row][chosen_tile_and_decision.col] = '*'
             print_game_over(play_board)
+            print_seperator()
             break
         else:
+            print('in ELSE')
             play_board = build_play_board_with_revealed_tile(play_board, solved_board, (chosen_tile_and_decision.row, chosen_tile_and_decision.col))
 
-        if has_player_won(play_board, bomb_locations):
+        if has_player_won(play_board, mine_locations):
             print_seperator()
             print('YOU WON!')
+            pretty_print_board(play_board)
             print_seperator()
             break

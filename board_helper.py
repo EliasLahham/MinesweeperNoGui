@@ -44,23 +44,14 @@ def not_starting_tile(starting_tile, random_row, random_col):
     return True
 
 
-def get_adjacent_bomb_count(adjacent_indices, empty_board_with_mines):
-    adjacent_bomb_count = 0
+def get_adjacent_mine_count(adjacent_indices, empty_board_with_mines):
+    adjacent_mine_count = 0
 
     for index in adjacent_indices:
         if empty_board_with_mines[index[0]][index[1]] == '*':
-            adjacent_bomb_count += 1
+            adjacent_mine_count += 1
 
-    return str(adjacent_bomb_count) if adjacent_bomb_count > 0 else '_'
-
-
-def get_bomb_locations(empty_board_with_mines):
-    bomb_locations = []
-    for row in range(ROWS):
-        for col in range(COLUMNS):
-            if empty_board_with_mines[row][col] == '*':
-                bomb_locations.append((row, col))
-    return bomb_locations
+    return str(adjacent_mine_count) if adjacent_mine_count > 0 else '_'
 
 
 def should_reveal_more(solved_board, row, col):
@@ -117,15 +108,8 @@ def reveal_tiles(play_board, tiles_to_reveal):
     return play_board
 
 
-def was_mine_hit(chosen_tile, bomb_locations):
-    for bomb in bomb_locations:
-        if bomb == chosen_tile:
-            return True
-    return False
-
-
-def has_player_won(play_board, bomb_locations):
-    for bomb in bomb_locations:
-        if play_board[bomb[0]][bomb[1]] != '^':
+def has_player_won(play_board, mine_locations):
+    for mine in mine_locations:
+        if play_board[mine[0]][mine[1]] != '^':
             return False
     return True
