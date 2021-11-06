@@ -10,19 +10,6 @@ class Revealed_Tile:
         self.checked = False
 
 
-def not_surrounding_starting_tile(starting_adjacent_indices, random_row, random_col):
-    for index in starting_adjacent_indices:
-        if index[0] == random_row and index[1] == random_col:
-            return False
-    return True
-
-
-def not_starting_tile(starting_tile, random_row, random_col):
-    if starting_tile[0] == random_row and starting_tile[1] == random_col:
-        return False
-    return True
-
-
 def get_adjacent_indices(row, col):
     adjacent_indices = []
     if row > 0:
@@ -44,6 +31,19 @@ def get_adjacent_indices(row, col):
     return adjacent_indices
 
 
+def not_surrounding_starting_tile(starting_adjacent_indices, random_row, random_col):
+    for index in starting_adjacent_indices:
+        if index[0] == random_row and index[1] == random_col:
+            return False
+    return True
+
+
+def not_starting_tile(starting_tile, random_row, random_col):
+    if starting_tile[0] == random_row and starting_tile[1] == random_col:
+        return False
+    return True
+
+
 def get_adjacent_bomb_count(adjacent_indices, empty_board_with_mines):
     adjacent_bomb_count = 0
 
@@ -63,11 +63,14 @@ def get_bomb_locations(empty_board_with_mines):
     return bomb_locations
 
 
-def was_mine_hit(chosen_tile, bomb_locations):
-    for bomb in bomb_locations:
-        if bomb == chosen_tile:
-            return True
+def should_reveal_more(solved_board, row, col):
+    if solved_board[row][col] == '_':
+        return True
     return False
+
+
+def get_solved_board_value(solved_board, row, col):
+    return solved_board[row][col]
 
 
 def get_revealed_tiles(solved_board, tile_to_reveal):
@@ -88,13 +91,10 @@ def get_revealed_tiles(solved_board, tile_to_reveal):
     return tiles_to_reveal
 
 
-def get_solved_board_value(solved_board, row, col):
-    return solved_board[row][col]
-
-
-def should_reveal_more(solved_board, row, col):
-    if solved_board[row][col] == '_':
-        return True
+def has_tiles_to_reveal(tiles_to_reveal):
+    for tile in tiles_to_reveal:
+        if tile.check_adjacent:
+            return True
     return False
 
 
@@ -106,16 +106,9 @@ def should_reveal_more_if_not_checked(solved_board, row, col, tiles_to_reveal):
 
 def not_checked_already(row, col, tiles_to_reveal):
     for tile in tiles_to_reveal:
-        if tile.row == row and tile.col == col and tile.checked == True:
+        if tile.row == row and tile.col == col and tile.checked:
             return False
     return True
-
-
-def has_tiles_to_reveal(tiles_to_reveal):
-    for tile in tiles_to_reveal:
-        if tile.check_adjacent:
-            return True
-    return False
 
 
 def reveal_tiles(play_board, tiles_to_reveal):
@@ -124,8 +117,15 @@ def reveal_tiles(play_board, tiles_to_reveal):
     return play_board
 
 
+def was_mine_hit(chosen_tile, bomb_locations):
+    for bomb in bomb_locations:
+        if bomb == chosen_tile:
+            return True
+    return False
+
+
 def has_player_won(play_board, bomb_locations):
     for bomb in bomb_locations:
-        if play_board[bomb[0]][bomb[1]] != '^':  
+        if play_board[bomb[0]][bomb[1]] != '^':
             return False
     return True

@@ -20,11 +20,10 @@ def play_game(empty_board_with_mines, solved_board, starting_tile):
             play_board[chosen_tile_and_decision.row][chosen_tile_and_decision.col] = '*'
             print_game_over(play_board)
             break
-        elif has_player_won(play_board, bomb_locations):
-            print_seperator()
-            print('YOU WON!')
-            pretty_print_board(play_board)
-            print_seperator()
         else:
             play_board = build_play_board_with_revealed_tile(play_board, solved_board, (chosen_tile_and_decision.row, chosen_tile_and_decision.col))
-        
+
+        if has_player_won(play_board, bomb_locations):
+            print_seperator()
+            print('YOU WON!')
+            print_seperator()
