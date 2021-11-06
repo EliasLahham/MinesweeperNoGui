@@ -18,5 +18,14 @@ def print_seperator():
 
 
 def print_game_over(board):
-    print('GAME OVER!')
+    print_seperator()
+    print(GAME_OVER)
     pretty_print_board(board)
+    print_seperator()
+
+
+def print_game_won(board):
+    print_seperator()
+    print(GAME_WON)
+    pretty_print_board(board)
+    print_seperator()
