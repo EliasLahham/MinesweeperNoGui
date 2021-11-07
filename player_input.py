@@ -32,11 +32,11 @@ def get_user_input():
 
 
 def is_valid_tile(row, col, play_board, is_unflagging):
-    if ((col >= 0 and col <= COLUMNS - 1) and
-            (row >= 0 and row <= ROWS - 1)):
+    if ((col >= 0 and col < COLUMNS) and
+            (row >= 0 and row < ROWS)):
         if (((play_board and play_board[row][col] == '▯') or
                 (play_board and play_board[row][col] == '^' and is_unflagging)) or
-                not play_board and not is_unflagging):
+                not play_board and not is_unflagging):  # This last check is only when the starting tile is selected
             return True
     return False
 

@@ -7,7 +7,6 @@ class Revealed_Tile:
         self.col = col
         self.check_adjacent = check_adjacent
         self.shown_value = shown_value
-        self.checked = False
 
 
 def get_adjacent_indices(row, col):
@@ -65,41 +64,34 @@ def get_solved_board_value(solved_board, row, col):
 
 
 def get_revealed_tiles(solved_board, tile_to_reveal):
+    tiles_left_to_check = 1  # Starts with 1 because incoming tile is being checked
+    checked_tiles = set()
     tiles_to_reveal = []
     tiles_to_reveal.append(tile_to_reveal)
-    while has_tiles_to_reveal(tiles_to_reveal):
+    while tiles_left_to_check > 0:
         for tile in tiles_to_reveal:
             if tile.check_adjacent:
                 adjacent_indices = get_adjacent_indices(tile.row, tile.col)
                 for index in adjacent_indices:
-                    tiles_to_reveal.append(Revealed_Tile(
-                        index[0],
-                        index[1],
-                        should_reveal_more_if_not_checked(solved_board, index[0], index[1], tiles_to_reveal),
-                        get_solved_board_value(solved_board, index[0], index[1])))
-                tile.check_adjacent = False
-                tile.checked = True
+                    check_adjacent = should_reveal_more_if_not_checked(solved_board, index[0], index[1], checked_tiles)
+                    tiles_to_reveal.append(Revealed_Tile(index[0], index[1], check_adjacent, get_solved_board_value(solved_board, index[0], index[1])))
+                    tiles_left_to_check = get_tiles_left_to_check_count(check_adjacent, tiles_left_to_check)
+                checked_tiles.add((tile.row, tile.col))
     return tiles_to_reveal
 
 
-def has_tiles_to_reveal(tiles_to_reveal):
-    for tile in tiles_to_reveal:
-        if tile.check_adjacent:
-            return True
-    return False
-
-
-def should_reveal_more_if_not_checked(solved_board, row, col, tiles_to_reveal):
-    if not_checked_already(row, col, tiles_to_reveal) and solved_board[row][col] == '_':
+def should_reveal_more_if_not_checked(solved_board, row, col, checked_tiles):
+    if not (row, col) in checked_tiles and solved_board[row][col] == '_':
         return True
     return False
 
 
-def not_checked_already(row, col, tiles_to_reveal):
-    for tile in tiles_to_reveal:
-        if tile.row == row and tile.col == col and tile.checked:
-            return False
-    return True
+def get_tiles_left_to_check_count(check_adjacent, tiles_left_to_check):
+    if check_adjacent:
+        tiles_left_to_check += 1
+    else:
+        tiles_left_to_check -= 1
+    return tiles_left_to_check
 
 
 def reveal_tiles(play_board, tiles_to_reveal):
