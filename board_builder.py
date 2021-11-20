@@ -1,9 +1,10 @@
+from typing import Union
 from board_helper import Revealed_Tile, get_adjacent_indices, not_surrounding_starting_tile, not_starting_tile, get_adjacent_mine_count, should_reveal_more, get_solved_board_value, get_revealed_tiles, reveal_tiles
 from consts import *
 import random
 
 
-def build_empty_board_with_mines(starting_tile):
+def build_empty_board_with_mines(starting_tile: tuple) -> Union[list, set]:
     board = build_empty_board('▯')
     mine_locations = set()
     starting_adjacent_indices = get_adjacent_indices(starting_tile[0], starting_tile[1])
@@ -26,11 +27,11 @@ def build_empty_board_with_mines(starting_tile):
     return board, mine_locations
 
 
-def build_empty_board(empty_tile_indicator):
+def build_empty_board(empty_tile_indicator: str) -> list:
     return [[empty_tile_indicator for col in range(COLUMNS)] for row in range(ROWS)]
 
 
-def build_solved_board(empty_board_with_mines):
+def build_solved_board(empty_board_with_mines: list) -> list:
     solved_board = build_empty_board('_')
 
     for row in range(ROWS):
@@ -45,7 +46,7 @@ def build_solved_board(empty_board_with_mines):
     return solved_board
 
 
-def build_play_board_with_revealed_tile(play_board, solved_board, chosen_tile):
+def build_play_board_with_revealed_tile(play_board: list, solved_board: list, chosen_tile: tuple) -> list:
     tile_to_reveal = Revealed_Tile(
         chosen_tile[0],
         chosen_tile[1],

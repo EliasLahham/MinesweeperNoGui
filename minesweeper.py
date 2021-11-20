@@ -1,3 +1,4 @@
+from typing import Union
 from board_builder import build_empty_board, build_empty_board_with_mines, build_solved_board
 from player_input import get_starting_tile
 from game_display import pretty_print_board
@@ -9,7 +10,7 @@ def main():
     play_game(empty_board, solved_board, starting_tile, mine_locations)
 
 
-def setup_game():
+def setup_game() -> Union[list, list, tuple, set]:
     empty_board = build_empty_board('▯')
     pretty_print_board(empty_board)
     starting_tile = get_starting_tile()

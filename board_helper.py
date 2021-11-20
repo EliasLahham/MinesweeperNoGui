@@ -2,14 +2,14 @@ from consts import *
 
 
 class Revealed_Tile:
-    def __init__(self, row, col, check_adjacent, shown_value):
+    def __init__(self, row: int, col: int, check_adjacent: bool, shown_value: str):
         self.row = row
         self.col = col
         self.check_adjacent = check_adjacent
         self.shown_value = shown_value
 
 
-def get_adjacent_indices(row, col):
+def get_adjacent_indices(row: int, col: int) -> list:
     adjacent_indices = []
     if row > 0:
         adjacent_indices.append((row - 1, col))
@@ -30,20 +30,20 @@ def get_adjacent_indices(row, col):
     return adjacent_indices
 
 
-def not_surrounding_starting_tile(starting_adjacent_indices, random_row, random_col):
+def not_surrounding_starting_tile(starting_adjacent_indices: list, random_row: int, random_col: int) -> bool:
     for index in starting_adjacent_indices:
         if index[0] == random_row and index[1] == random_col:
             return False
     return True
 
 
-def not_starting_tile(starting_tile, random_row, random_col):
+def not_starting_tile(starting_tile: tuple, random_row: int, random_col: int) -> bool:
     if starting_tile[0] == random_row and starting_tile[1] == random_col:
         return False
     return True
 
 
-def get_adjacent_mine_count(adjacent_indices, empty_board_with_mines):
+def get_adjacent_mine_count(adjacent_indices: list, empty_board_with_mines: list) -> str:
     adjacent_mine_count = 0
 
     for index in adjacent_indices:
@@ -53,17 +53,17 @@ def get_adjacent_mine_count(adjacent_indices, empty_board_with_mines):
     return str(adjacent_mine_count) if adjacent_mine_count > 0 else '_'
 
 
-def should_reveal_more(solved_board, row, col):
+def should_reveal_more(solved_board: list, row: int, col: int) -> bool:
     if solved_board[row][col] == '_':
         return True
     return False
 
 
-def get_solved_board_value(solved_board, row, col):
+def get_solved_board_value(solved_board: list, row: int, col: int) -> str:
     return solved_board[row][col]
 
 
-def get_revealed_tiles(solved_board, tile_to_reveal):
+def get_revealed_tiles(solved_board: list, tile_to_reveal: Revealed_Tile) -> list:
     tiles_left_to_check = 1  # Starts with 1 because incoming tile is being checked
     checked_tiles = set()
     tiles_to_reveal = []
@@ -80,13 +80,13 @@ def get_revealed_tiles(solved_board, tile_to_reveal):
     return tiles_to_reveal
 
 
-def should_reveal_more_if_not_checked(solved_board, row, col, checked_tiles):
+def should_reveal_more_if_not_checked(solved_board: list, row: int, col: int, checked_tiles: list) -> bool:
     if not (row, col) in checked_tiles and solved_board[row][col] == '_':
         return True
     return False
 
 
-def get_tiles_left_to_check_count(check_adjacent, tiles_left_to_check):
+def get_tiles_left_to_check_count(check_adjacent: bool, tiles_left_to_check: int) -> int:
     if check_adjacent:
         tiles_left_to_check += 1
     else:
@@ -94,13 +94,13 @@ def get_tiles_left_to_check_count(check_adjacent, tiles_left_to_check):
     return tiles_left_to_check
 
 
-def reveal_tiles(play_board, tiles_to_reveal):
+def reveal_tiles(play_board: list, tiles_to_reveal: list) -> list:
     for tile in tiles_to_reveal:
         play_board[tile.row][tile.col] = tile.shown_value
     return play_board
 
 
-def has_player_won(play_board, mine_locations):
+def has_player_won(play_board: list, mine_locations: list) -> bool:
     for mine in mine_locations:
         if play_board[mine[0]][mine[1]] != '^':
             return False

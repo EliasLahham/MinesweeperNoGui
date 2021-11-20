@@ -2,14 +2,14 @@ from consts import *
 
 
 class Chosen_Tile:
-    def __init__(self, row, col, flag, unflag):
+    def __init__(self, row: int, col: int, flag: bool, unflag: bool):
         self.row = row
         self.col = col
         self.flag = flag
         self.unflag = unflag
 
 
-def get_starting_tile():
+def get_starting_tile() -> tuple:
     starting_tile = get_user_input()
 
     while is_valid_tile(starting_tile[0], starting_tile[1], None, None) is False:
@@ -19,7 +19,7 @@ def get_starting_tile():
     return starting_tile
 
 
-def get_user_input():
+def get_user_input() -> tuple:
     row = input(PICK_ROW)
     while row.isnumeric() is False:
         row = input(PICK_ROW)
@@ -31,7 +31,7 @@ def get_user_input():
     return (int(row), int(col))
 
 
-def is_valid_tile(row, col, play_board, is_unflagging):
+def is_valid_tile(row: int, col: int, play_board: list, is_unflagging: bool) -> bool:
     if ((col >= 0 and col < COLUMNS) and
             (row >= 0 and row < ROWS)):
         if (((play_board and play_board[row][col] == '▯') or
@@ -41,7 +41,7 @@ def is_valid_tile(row, col, play_board, is_unflagging):
     return False
 
 
-def get_chosen_tile_and_decision(play_board):
+def get_chosen_tile_and_decision(play_board: list) -> Chosen_Tile:
     is_flagging = is_user_flagging()
     is_unflagging = is_user_unflagging(is_flagging)
     chosen_tile = get_user_input()
@@ -51,14 +51,14 @@ def get_chosen_tile_and_decision(play_board):
     return Chosen_Tile(chosen_tile[0], chosen_tile[1], is_flagging, is_unflagging)
 
 
-def is_user_flagging():
+def is_user_flagging() -> bool:
     decision = input(PICK_FLAG)
     if decision.lower() == 'y':
         return True
     return False
 
 
-def is_user_unflagging(is_flagging):
+def is_user_unflagging(is_flagging: bool) -> bool:
     if is_flagging is False:
         decision = input(PICK_UNFLAG)
         if decision.lower() == 'y' and is_flagging is False:

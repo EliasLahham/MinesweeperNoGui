@@ -4,7 +4,7 @@ from player_input import get_chosen_tile_and_decision
 from board_helper import has_player_won
 
 
-def play_game(empty_board, solved_board, starting_tile, mine_locations):
+def play_game(empty_board: list, solved_board: list, starting_tile: tuple, mine_locations) -> None:
     play_board = build_play_board_with_revealed_tile(empty_board, solved_board, starting_tile)
     while True:
         print_seperator()
